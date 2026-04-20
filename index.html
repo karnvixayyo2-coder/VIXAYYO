@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VIXAYYO Consulting Co., Ltd. - ບໍລິສັດທີ່ປຶກສາດ້ານທຸລະກິດ ແລະ ກົດໝາຍແບບຄົບວົງຈອນໃນ ສປປ ລາວ.">
+    <meta name="keywords" content="ທີ່ປຶກສາທຸລະກິດ, ຈົດທະບຽນວິສາຫະກິດ, ກົດໝາຍລາວ, ວີຊາ, ໃບອະນຸຍາດເຮັດວຽກ">
+    <title>VIXAYYO Consulting | ທີ່ປຶກສາທຸລະກິດມືອາຊີບໃນລາວ</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1a2a44; 
+            --accent-color: #d4af37;  
+            --accent-hover: #b8962d;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', 'Noto Sans Lao', sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+            scroll-behavior: smooth;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- Admin Toolbar & Editing UI --- */
+        #admin-panel {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            z-index: 10000;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            font-size: 0.9rem;
+        }
+
+        .edit-mode-active [data-edit] {
+            outline: 2px dashed var(--accent-color);
+            background: rgba(212, 175, 55, 0.05);
+            cursor: text;
+        }
+
+        /* --- Header --- */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 90px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span { color: var(--accent-color); }
+
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .nav-links a:hover { color: var(--accent-color); }
+
+        /* --- Hero --- */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(26, 42, 68, 0.8), rgba(26, 42, 68, 0.8)), 
+                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069') no-repeat center center/cover;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .hero h1 { font-size: 4rem; margin-bottom: 25px; line-height: 1.1; }
+        .hero p { font-size: 1.2rem; max-width: 800px; margin: 0 auto 40px; opacity: 0.9; }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+        .btn-gold { background-color: var(--accent-color); color: var(--white); }
+        .btn-gold:hover { background-color: var(--accent-hover); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(212,175,55,0.3); }
+
+        /* --- Mission & Vision --- */
+        .vision-mission { padding: 100px 0; background: var(--bg-light); }
+        .vision-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .vision-card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .vision-card i { font-size: 2rem; color: var(--accent-color); margin-bottom: 20px; }
+
+        /* --- About --- */
+        .about { padding: 120px 0; }
+        .about-flex { display: flex; align-items: center; gap: 70px; flex-wrap: wrap; }
+        .about-image { flex: 1; min-width: 350px; position: relative; }
+        .about-image img { width: 100%; border-radius: 20px; }
+        .experience-badge {
+            position: absolute; bottom: -20px; right: -20px;
+            background: var(--accent-color); color: white;
+            padding: 30px; border-radius: 20px; text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* --- Process --- */
+        .process { padding: 100px 0; background: var(--primary-color); color: white; }
+        .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; margin-top: 60px; }
+        .step { position: relative; text-align: center; }
+        .step-num { 
+            width: 60px; height: 60px; background: var(--accent-color); 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; margin: 0 auto 20px; font-weight: 800; font-size: 1.5rem;
+        }
+
+        /* --- Services --- */
+        .services { padding: 120px 0; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .service-card {
+            padding: 50px; border: 1px solid #eee; border-radius: 20px;
+            transition: var(--transition);
+        }
+        .service-card:hover { border-color: var(--accent-color); background: var(--bg-light); }
+        .service-card ul { list-style: none; margin-top: 20px; }
+        .service-card li { margin-bottom: 10px; font-size: 0.9rem; color: var(--text-light); }
+        .service-card li i { color: var(--accent-color); margin-right: 10px; }
+
+        /* --- Testimonials --- */
+        .testimonials { padding: 100px 0; background: var(--bg-light); text-align: center; }
+        .testimonial-slider { max-width: 800px; margin: 40px auto; }
+        .testimonial-item { font-style: italic; font-size: 1.2rem; }
+
+        /* --- Contact Section --- */
+        .contact { padding: 120px 0; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; }
+        .info-item { display: flex; gap: 20px; margin-bottom: 30px; }
+        .info-item i { width: 50px; height: 50px; background: var(--bg-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-color); }
+
+        .contact-form { background: white; padding: 50px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.08); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 10px; outline: none; font-family: inherit;
+        }
+
+        /* --- Footer --- */
+        footer { background: var(--primary-color); color: var(--white); padding: 80px 0 40px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 50px; margin-bottom: 50px; }
+        .footer-col h4 { margin-bottom: 25px; color: var(--accent-color); }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 15px; opacity: 0.7; font-size: 0.9rem; }
+        
+        /* --- AI Assistant --- */
+        #ai-chat-widget { position: fixed; bottom: 30px; right: 30px; z-index: 2000; }
+        #chat-button { width: 65px; height: 65px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        #chat-window { position: fixed; bottom: 110px; right: 30px; width: 380px; height: 550px; background: white; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.15); display: none; flex-direction: column; overflow: hidden; }
+        #chat-header { background: var(--primary-color); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        #chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: #f9fafb; }
+        .message { max-width: 85%; padding: 12px 18px; border-radius: 15px; font-size: 0.9rem; }
+        .bot { background: white; align-self: flex-start; border: 1px solid #eee; }
+        .user { background: var(--primary-color); color: white; align-self: flex-end; }
+
+        @media (max-width: 992px) {
+            .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel">
+        <i class="fas fa-edit"></i>
+        <span>Admin Mode:</span>
+        <button onclick="toggleEdit()" id="edit-toggle-btn" class="btn" style="padding: 5px 15px; background: var(--accent-color); color: white; font-size: 0.8rem;">ເປີດການແກ້ໄຂ</button>
+        <small id="status" style="opacity: 0.7;">ບໍ່ມີການປ່ຽນແປງ</small>
+    </div>
+
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">VIXAYYO<span>.CONSULTING</span></a>
+            <ul class="nav-links">
+                <li><a href="#home">ໜ້າຫຼັກ</a></li>
+                <li><a href="#about">ກ່ຽວກັບພວກເຮົາ</a></li>
+                <li><a href="#services">ບໍລິການ</a></li>
+                <li><a href="#process">ຂັ້ນຕອນ</a></li>
+                <li><a href="#contact">ຕິດຕໍ່</a></li>
+            </ul>
+            <a href="#contact" class="btn btn-gold" style="padding: 12px 25px; font-size: 0.85rem;">ປຶກສາຟຣີ</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <h1 data-edit="hero_title">ຍົກລະດັບທຸລະກິດຂອງທ່ານ <br> ສູ່ຄວາມສຳເລັດໃນ ສປປ ລາວ</h1>
+            <p data-edit="hero_p">VIXAYYO Consulting - ຜູ້ຊ່ຽວຊານດ້ານການຈົດທະບຽນວິສາຫະກິດ, ທີ່ປຶກສາກົດໝາຍ ແລະ ວາງແຜນກົນລະຍຸດທຸລະກິດສຳລັບນັກລົງທຶນທັງພາຍໃນ ແລະ ຕ່າງປະເທດ.</p>
+            <div class="hero-btns">
+                <a href="#services" class="btn btn-gold">ບໍລິການຂອງພວກເຮົາ</a>
+                <a href="#contact" class="btn btn-outline" style="border-color: white; color: white; margin-left: 15px;">ຕິດຕໍ່ສອບຖາມ</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision & Mission -->
+    <section class="vision-mission">
+        <div class="container">
+            <div class="vision-grid">
+                <div class="vision-card">
+                    <i class="fas fa-eye"></i>
+                    <h3 data-edit="v_title">ວິໄສທັດ (Vision)</h3>
+                    <p data-edit="v_desc">ເປັນບໍລິສັດທີ່ປຶກສາຊັ້ນນຳທີ່ໄດ້ຮັບຄວາມໄວ້ວາງໃຈທີ່ສຸດໃນລາວ ໂດຍການສ້າງມາດຕະຖານໃໝ່ໃຫ້ກັບການບໍລິການດ້ານທຸລະກິດ.</p>
+                </div>
+                <div class="vision-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3 data-edit="m_title">ພັນທະກິດ (Mission)</h3>
+                    <p data-edit="m_desc">ສະໜອງວິທີການແກ້ໄຂບັນຫາທີ່ຖືກຕ້ອງ, ວ່ອງໄວ ແລະ ໂປ່ງໃສ ເພື່ອໃຫ້ນັກລົງທຶນສາມາດດຳເນີນທຸລະກິດໄດ້ຢ່າງໝັ້ນໃຈ.</p>
+                </div>
+                <div class="vision-card">
+                    <i class="fas fa-gem"></i>
+                    <h3 data-edit="c_title">ຄ່ານິຍົມ (Core Values)</h3>
+                    <p data-edit="c_desc">ຄວາມຊື່ສັດ, ຄວາມເປັນມືອາຊີບ ແລະ ການສ້າງຄຸນຄ່າທີ່ຍືນຍົງໃຫ້ກັບລູກຄ້າແມ່ນຫົວໃຈຂອງພວກເຮົາ.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed About -->
+    <section class="about" id="about">
+        <div class="container about-flex">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074" alt="ບໍລິສັດ ວິໄຊໂຍ">
+                <div class="experience-badge">
+                    <h2 style="font-size: 2.5rem;" data-edit="exp_num">10+</h2>
+                    <p data-edit="exp_text">ປີແຫ່ງປະສົບການ</p>
+                </div>
+            </div>
+            <div class="about-text">
+                <span style="color: var(--accent-color); font-weight: 700;" data-edit="about_tag">ຍິນດີຕ້ອນຮັບສູ່ VIXAYYO</span>
+                <h2 style="font-size: 2.5rem; margin: 15px 0; color: var(--primary-color);" data-edit="about_title">ຄູ່ຮ່ວມງານທຸລະກິດທີ່ທ່ານໄວ້ວາງໃຈ</h2>
+                <p style="margin-bottom: 20px;" data-edit="about_desc">ພວກເຮົາແມ່ນທີມງານຜູ້ຊ່ຽວຊານທີ່ມີຄວາມຮູ້ຄວາມເຂົ້າໃຈເລິກເຊິ່ງກ່ຽວກັບສະພາບແວດລ້ອມທາງທຸລະກິດ ແລະ ລະບຽບກົດໝາຍໃນ ສປປ ລາວ. ບໍລິສັດ ວິໄຊໂຍ ຄອນຊັລຕິງ ຈຳກັດ ຖືກສ້າງຕັ້ງຂຶ້ນເພື່ອເປັນຂົວຕໍ່ໃຫ້ນັກລົງທຶນ.</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
+                    <div data-edit="check_1"><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> ຖືກຕ້ອງຕາມກົດໝາຍ 100%</div>
+                    <div data-edit="check_2"><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> ທີມງານມືອາຊີບ</div>
+                    <div data-edit="check_3"><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> ລາຄາທີ່ສົມເຫດສົມຜົນ</div>
+                    <div data-edit="check_4"><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> ບໍລິການຫຼັງການຂາຍ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Process -->
+    <section class="process" id="process">
+        <div class="container">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;" data-edit="process_h2">ຂັ້ນຕອນການເຮັດວຽກຂອງພວກເຮົາ</h2>
+                <p style="opacity: 0.8;" data-edit="process_p">ພວກເຮົາເຮັດວຽກຢ່າງເປັນລະບົບ ເພື່ອຮັບປະກັນວ່າທຸລະກິດຂອງທ່ານຈະໄດ້ຮັບການອະນຸມັດຢ່າງວ່ອງໄວ.</p>
+            </div>
+            <div class="process-grid">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <h4 data-edit="step1_t">ປຶກສາ & ວາງແຜນ</h4>
+                    <p style="font-size: 0.85rem; margin-top: 10px; opacity: 0.7;" data-edit="step1_d">ວິເຄາະຄວາມຕ້ອງການ ແລະ ວາງໂຄງສ້າງທຸລະກິດໃຫ້ຖືກຕ້ອງ.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <h4 data-edit="step2_t">ກຽມເອກະສານ</h4>
+                    <p style="font-size: 0.85rem; margin-top: 10px; opacity: 0.7;" data-edit="step2_d">ຮວບຮວມ ແລະ ກວດສອບຄວາມຖືກຕ້ອງຂອງເອກະສານທັງໝົດ.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <h4 data-edit="step3_t">ຍື່ນຂໍອະນຸມັດ</h4>
+                    <p style="font-size: 0.85rem; margin-top: 10px; opacity: 0.7;" data-edit="step3_d">ດຳເນີນການຍື່ນເອກະສານກັບພາກສ່ວນລັດທີ່ກ່ຽວຂ້ອງ.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <h4 data-edit="step4_t">ມອບຮັບ & ຊ່ວຍເຫຼືອ</h4>
+                    <p style="font-size: 0.85rem; margin-top: 10px; opacity: 0.7;" data-edit="step4_d">ສົ່ງມອບໃບອະນຸຍາດ ແລະ ຕິດຕາມຊ່ວຍເຫຼືອໃນໄລຍະຍາວ.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="services" id="services">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 70px;">
+                <h2 style="font-size: 2.5rem; color: var(--primary-color);" data-edit="serv_h2">ບໍລິການລະດັບພຣີມ່ຽມ</h2>
+                <p style="color: var(--text-light);" data-edit="serv_p">ຄົບຖ້ວນທຸກຄວາມຕ້ອງການສຳລັບການເລີ່ມຕົ້ນ ແລະ ຂະຫຍາຍທຸລະກິດ.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-landmark" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 25px;"></i>
+                    <h3 data-edit="s1_t">ຈົດທະບຽນວິສາຫະກິດ</h3>
+                    <ul>
+                        <li data-edit="s1_l1"><i class="fas fa-caret-right"></i> ຈົດທະບຽນບໍລິສັດພາຍໃນ ແລະ ຕ່າງປະເທດ</li>
+                        <li data-edit="s1_l2"><i class="fas fa-caret-right"></i> ຂໍໃບອະນຸຍາດລົງທຶນ (IP)</li>
+                        <li data-edit="s1_l3"><i class="fas fa-caret-right"></i> ແກ້ໄຂ/ປ່ຽນແປງ ຂໍ້ມູນວິສາຫະກິດ</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-user-shield" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 25px;"></i>
+                    <h3 data-edit="s2_t">ວີຊາ & ໃບອະນຸຍາດເຮັດວຽກ</h3>
+                    <ul>
+                        <li data-edit="s2_l1"><i class="fas fa-caret-right"></i> ຂໍວີຊາທຸລະກິດ (NI-B2)</li>
+                        <li data-edit="s2_l2"><i class="fas fa-caret-right"></i> ໃບອະນຸຍາດເຮັດວຽກ (Work Permit)</li>
+                        <li data-edit="s2_l3"><i class="fas fa-caret-right"></i> ບັດພັກເຊົາ (Stay Permit)</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-balance-scale" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 25px;"></i>
+                    <h3 data-edit="s3_t">ທີ່ປຶກສາກົດໝາຍ</h3>
+                    <ul>
+                        <li data-edit="s3_l1"><i class="fas fa-caret-right"></i> ຮ່າງສັນຍາທຸລະກິດ</li>
+                        <li data-edit="s3_l2"><i class="fas fa-caret-right"></i> ທີ່ປຶກສາດ້ານພາສີ ແລະ ບັນຊີ</li>
+                        <li data-edit="s3_l3"><i class="fas fa-caret-right"></i> ກວດສອບຄວາມຖືກຕ້ອງທາງກົດໝາຍ (Due Diligence)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 style="margin-bottom: 40px; color: var(--primary-color);" data-edit="testi_h2">ສຽງຕອບຮັບຈາກລູກຄ້າ</h2>
+            <div class="testimonial-slider">
+                <p class="testimonial-item" data-edit="testi_q">"VIXAYYO ຊ່ວຍໃຫ້ການຈົດທະບຽນບໍລິສັດຂອງພວກເຮົາໃນລາວເປັນເລື່ອງງ່າຍ ແລະ ວ່ອງໄວຫຼາຍ ທີມງານມີຄວາມເປັນມືອາຊີບແທ້ໆ."</p>
+                <h5 style="margin-top: 20px;" data-edit="testi_a">— Mr. Somsack, CEO of TechLaos</h5>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div>
+                    <h2 style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 30px;" data-edit="contact_h2">ພ້ອມທີ່ຈະເລີ່ມຕົ້ນແລ້ບໍ?</h2>
+                    <p style="margin-bottom: 40px;" data-edit="contact_p">ຕິດຕໍ່ຫາພວກເຮົາເພື່ອຮັບຄຳປຶກສາເບື້ອງຕົ້ນຟຣີ. ທີມງານພວກເຮົາພ້ອມຕ້ອນຮັບທ່ານສະເໝີ.</p>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>ໂທຫາພວກເຮົາ</h4>
+                            <p data-edit="c_phone">+856 20 5555 XXXX</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>ອີເມວ</h4>
+                            <p data-edit="c_email">info@vixayyo.com</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>ສະຖານທີ່ຕັ້ງ</h4>
+                            <p data-edit="c_address">ບ້ານ ໂພນສີນວນ, ເມືອງ ສີສັດຕະນາກ, ນະຄອນຫຼວງວຽງຈັນ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <form onsubmit="event.preventDefault(); alert('ຂອບໃຈ! ຂໍ້ຄວາມຂອງທ່ານຖືກສົ່ງແລ້ວ.');">
+                        <div class="form-row">
+                            <div class="form-group"><input type="text" placeholder="ຊື່ ແລະ ນາມສະກຸນ" required></div>
+                            <div class="form-group"><input type="email" placeholder="ອີເມວຂອງທ່ານ" required></div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <select required>
+                                <option value="">ເລືອກບໍລິການທີ່ສົນໃຈ</option>
+                                <option value="reg">ຈົດທະບຽນວິສາຫະກິດ</option>
+                                <option value="visa">ວີຊາ & ໃບອະນຸຍາດເຮັດວຽກ</option>
+                                <option value="legal">ທີ່ປຶກສາກົດໝາຍ</option>
+                                <option value="other">ອື່ນໆ</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <textarea rows="5" placeholder="ລາຍລະອຽດທີ່ທ່ານຕ້ອງການປຶກສາ..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-gold" style="width: 100%;">ສົ່ງຂໍ້ຄວາມຫາພວກເຮົາ</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo" style="color: white; margin-bottom: 20px; display: block;">VIXAYYO<span>.CONSULTING</span></a>
+                    <p style="opacity: 0.7; font-size: 0.9rem;" data-edit="footer_desc">ພວກເຮົາເປັນທີ່ປຶກສາທຸລະກິດທີ່ເນັ້ນຜົນສຳເລັດ ແລະ ຄວາມຖືກຕ້ອງ. ຊ່ວຍໃຫ້ທ່ານກ້າວຂ້າມທຸກອຸປະສັກທາງກົດໝາຍໃນລາວ.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>ລິ້ງດ່ວນ</h4>
+                    <ul>
+                        <li><a href="#about" style="color: white; text-decoration: none;">ກ່ຽວກັບພວກເຮົາ</a></li>
+                        <li><a href="#services" style="color: white; text-decoration: none;">ບໍລິການ</a></li>
+                        <li><a href="#contact" style="color: white; text-decoration: none;">ຕິດຕໍ່</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>ບໍລິການ</h4>
+                    <ul>
+                        <li>ຈົດທະບຽນບໍລິສັດ</li>
+                        <li>ທີ່ປຶກສາກົດໝາຍ</li>
+                        <li>ວີຊາທຸລະກິດ</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>ຕິດຕາມພວກເຮົາ</h4>
+                    <div style="display: flex; gap: 15px; font-size: 1.5rem; margin-top: 20px;">
+                        <i class="fab fa-facebook" style="cursor: pointer;"></i>
+                        <i class="fab fa-whatsapp" style="cursor: pointer;"></i>
+                        <i class="fab fa-linkedin" style="cursor: pointer;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-edit="copy_text">&copy; 2024 VIXAYYO Consulting Co., Ltd. ລິຂະສິດຖືກຕ້ອງ.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Assistant -->
+    <div id="ai-chat-widget">
+        <div id="chat-window">
+            <div id="chat-header">
+                <span>VIXAYYO AI Assistant</span>
+                <i class="fas fa-times" style="cursor:pointer" onclick="toggleChat()"></i>
+            </div>
+            <div id="chat-messages">
+                <div class="message bot">ສະບາຍດີ! ຂ້ອຍແມ່ນຜູ້ຊ່ວຍ AI ຂອງ VIXAYYO Consulting. ມີຫຍັງໃຫ້ຂ້ອຍຊ່ວຍປຶກສາເບື້ອງຕົ້ນບໍ່?</div>
+            </div>
+            <div style="padding: 15px; display: flex; gap: 10px; background: white; border-top: 1px solid #eee;">
+                <input type="text" id="ai-input" placeholder="ຖາມຫຍັງກໍໄດ້..." style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 25px; outline: none;" onkeypress="if(event.key === 'Enter') handleChat()">
+                <button onclick="handleChat()" style="background: var(--primary-color); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer;"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <div id="chat-button" onclick="toggleChat()">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+    </div>
+
+    <script>
+        // --- Core Application Logic ---
+        const apiKey = ""; 
+        let editMode = false;
+
+        // ໂຫຼດຂໍ້ມູນຈາກ LocalStorage ເມື່ອເປີດໜ້າເວັບ
+        window.onload = function() {
+            const savedData = JSON.parse(localStorage.getItem('vixayyo_web_data') || '{}');
+            document.querySelectorAll('[data-edit]').forEach(el => {
+                const key = el.getAttribute('data-edit');
+                if (savedData[key]) {
+                    el.innerText = savedData[key];
+                }
+                
+                // ເພີ່ມ Event ບັນທຶກເມື່ອມີການພິມ
+                el.addEventListener('input', () => {
+                    if(editMode) autoSave();
+                });
+            });
+        };
+
+        // ຟັງຊັນເປີດ/ປິດ ໂໝດແກ້ໄຂ
+        function toggleEdit() {
+            editMode = !editMode;
+            const btn = document.getElementById('edit-toggle-btn');
+            const status = document.getElementById('status');
+            
+            document.body.classList.toggle('edit-mode-active');
+            
+            document.querySelectorAll('[data-edit]').forEach(el => {
+                el.contentEditable = editMode;
+            });
+
+            if(editMode) {
+                btn.innerText = "ປິດການແກ້ໄຂ";
+                btn.style.background = "#e74c3c";
+                status.innerText = "ກຳລັງແກ້ໄຂ...";
+            } else {
+                btn.innerText = "ເປີດການແກ້ໄຂ";
+                btn.style.background = "var(--accent-color)";
+                status.innerText = "ບັນທຶກແລ້ວ ✅";
+                autoSave();
+            }
+        }
+
+        // ຟັງຊັນບັນທຶກຂໍ້ມູນລົງ LocalStorage
+        function autoSave() {
+            const data = {};
+            document.querySelectorAll('[data-edit]').forEach(el => {
+                const key = el.getAttribute('data-edit');
+                data[key] = el.innerText;
+            });
+            localStorage.setItem('vixayyo_web_data', JSON.stringify(data));
+            document.getElementById('status').innerText = "ບັນທຶກອັດຕະໂນມັດ...";
+        }
+
+        // --- AI Chat Logic ---
+        function toggleChat() {
+            const win = document.getElementById('chat-window');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        async function handleChat() {
+            const input = document.getElementById('ai-input');
+            const messages = document.getElementById('chat-messages');
+            const text = input.value.trim();
+            if (!text) return;
+
+            messages.innerHTML += `<div class="message user">${text}</div>`;
+            input.value = '';
+            messages.scrollTop = messages.scrollHeight;
+
+            const loadingId = 'load-' + Date.now();
+            messages.innerHTML += `<div class="message bot" id="${loadingId}">...</div>`;
+            messages.scrollTop = messages.scrollHeight;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: text }] }],
+                        systemInstruction: { parts: [{ text: "You are an expert business consultant for VIXAYYO Consulting in Laos. Answer in professional Lao. Provide info about company registration, visas, and legal advice." }] }
+                    })
+                });
+                const data = await response.json();
+                const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "ຂໍອະໄພ, ຂ້ອຍບໍ່ສາມາດຕອບໄດ້ໃນເວລານີ້.";
+                document.getElementById(loadingId).innerText = reply;
+            } catch (e) {
+                document.getElementById(loadingId).innerText = "ຂໍອະໄພ, ເກີດຂໍ້ຜິດພາດໃນການເຊື່ອມຕໍ່.";
+            }
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+</body>
+</html>
